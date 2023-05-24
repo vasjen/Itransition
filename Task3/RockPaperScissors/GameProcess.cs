@@ -34,6 +34,12 @@ namespace Task3.RockPaperScissors
         }
         private bool GameIsPossible()
         {
+            var possibleDoubles = _args.ToHashSet();
+            if (_args.Length != possibleDoubles.Count)
+            {
+                System.Console.WriteLine("All values must to be a uniq");
+                return false;
+            }
             var message = _args.Length switch
             {
                 0 => "Error: You haven't provided the possible combinations of the game. To provide them, please add them separated by spaces.",
@@ -48,6 +54,7 @@ namespace Task3.RockPaperScissors
                 System.Console.WriteLine(example);
                 return false;
             }
+            
             return true;
         }
        

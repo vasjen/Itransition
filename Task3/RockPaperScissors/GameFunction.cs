@@ -26,7 +26,7 @@ namespace Task3.RockPaperScissors
                 {
                     System.Console.WriteLine("All elements must to be a uniq");
                     System.Console.WriteLine("Current game was aborted. Let's try to start a new game again.");
-                    break;
+                    return new Dictionary<int, string>();
                 }
                 else
                     moves.Add(counter,item);
