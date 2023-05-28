@@ -1,0 +1,30 @@
+version: '3'
+services:
+  webmvc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=TempPass44w$$rd
+    volumes:
+      - dbdata:/var/opt/mssql
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+
+volumes:
+  dbdata:

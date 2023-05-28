@@ -8,9 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    var conStrBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("DbConnection"));
-            conStrBuilder.Password = builder.Configuration.GetValue<string>("DbPassword");
-            var connection = conStrBuilder.ConnectionString;
+    var connection = builder.Configuration.GetConnectionString("DbConnection");
             options.UseSqlServer(connection);
 });
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
