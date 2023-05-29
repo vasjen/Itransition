@@ -114,12 +114,10 @@ namespace WebMVC.Areas.Identity.Pages.Account
                 {
                      if (user.IsActive == true)
                     {
-                            var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                        var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                         if (result.Succeeded)
                         {
                             _logger.LogInformation("User logged in.");
-                            user.LastLoginTime = DateTime.Now;
-                            await _signInManager.UserManager.UpdateAsync(user);
                             return LocalRedirect(returnUrl);
                         }
                         if (result.RequiresTwoFactor)
@@ -143,6 +141,11 @@ namespace WebMVC.Areas.Identity.Pages.Account
                         ModelState.AddModelError(string.Empty, $"User {user.UserName} is blocked.");
                     }
                 }
+                else
+                        {
+                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                            return Page();
+                        }
               
             }
 

@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - 9000:80
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
@@ -24,6 +24,8 @@ services:
       - MSSQL_TCP_ENABLED=1
       - MSSQL_TCP_PORT=1433
       - MSSQLNP_ENABLED=1
+    volumes:
+      - dbdata:/var/opt/mssql
     networks:
       - mynetwork
 

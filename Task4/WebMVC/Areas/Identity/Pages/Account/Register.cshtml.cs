@@ -147,6 +147,8 @@ namespace WebMVC.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
+                        user.LastLoginTime = user.RegistrationTime;
+                        await _signInManager.UserManager.UpdateAsync(user);
                         return LocalRedirect(returnUrl);
                     }
                 }
