@@ -17,7 +17,7 @@ services:
       - 1433:1433
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=TempPass44w$$rd
+      - SA_PASSWORD=Pass44w0rd!
     volumes:
       - dbdata:/var/opt/mssql
     networks:
