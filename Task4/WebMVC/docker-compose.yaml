@@ -1,11 +1,13 @@
-version: '3'
+version: '3.9'
 services:
-  webmvc:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - 80:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - db
     networks:
@@ -17,9 +19,11 @@ services:
       - 1433:1433
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=Pass44w0rd!
-    volumes:
-      - dbdata:/var/opt/mssql
+      - MSSQL_SA_PASSWORD=Pass44w0rd
+      - MSSQL_PID=Developer
+      - MSSQL_TCP_ENABLED=1
+      - MSSQL_TCP_PORT=1433
+      - MSSQLNP_ENABLED=1
     networks:
       - mynetwork
 
