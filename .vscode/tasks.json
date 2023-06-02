@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Task3/RockPaperScissors/RockPaperScissors.csproj",
+                "${workspaceFolder}/Task5/FakeGeneration/FakeGeneration.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Task3/RockPaperScissors/RockPaperScissors.csproj",
+                "${workspaceFolder}/Task5/FakeGeneration/FakeGeneration.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Task3/RockPaperScissors/RockPaperScissors.csproj"
+                "${workspaceFolder}/Task5/FakeGeneration/FakeGeneration.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

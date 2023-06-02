@@ -1,0 +1,130 @@
+@{
+    ViewData["Title"] = "Fake User Data Generator";
+}
+
+<h1>Fake User Data Generator</h1>
+
+<div>
+    <label for="region">Region:</label>
+    <select id="region">
+        <option value="en_US">USA</option>
+        <option value="pl_PL">Poland</option>
+        <option value="uz_UZ">Uzbekistan</option>
+    </select>
+</div>
+
+<div>
+    <label for="errorCount">Error Count:</label>
+    <input type="range" id="errorCount" min="0" max="10" value="0" />
+    <input type="number" id="errorCountInput" min="0" max="1000" value="0" />
+</div>
+
+<div>
+    <label for="seed">Seed:</label>
+    <input type="text" id="seed" />
+    <button id="randomSeed">Random</button>
+</div>
+
+<table id="userTable">
+    <thead>
+        <tr>
+            <th>Index</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+  var tableBody = $('#userTable tbody');
+  var isLoading = false;
+  var pageNumber = 1;
+
+  loadTable();
+
+  $(window).scroll(function () {
+    if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+      loadTable();
+    }
+  });
+
+  $('#region, #errorCount, #errorCountInput, #seed').on('change', function () {
+    resetTable();
+    loadTable();
+  });
+
+  $('#randomSeed').on('click', function () {
+    var randomSeed = Math.floor(Math.random() * 1000);
+    $('#seed').val(randomSeed);
+    resetTable();
+    loadTable();
+  });
+
+  function resetTable() {
+    tableBody.empty();
+    pageNumber = 1;
+  }
+
+  function loadTable() {
+    if (isLoading) {
+      return;
+    }
+
+    isLoading = true;
+
+    var region = $('#region').val();
+    var errorCount = $('#errorCount').val();
+    var seed = pageNumber + $('#seed').val();
+
+    axios
+      .get('/FakeData/GenerateData', {
+        params: {
+          //region: region,
+          errorCount: errorCount,
+          seed: seed,
+          page: pageNumber
+        }
+      })
+      .then(function (response) {
+        var users = response.data;
+
+        if (users.length > 0) {
+          $.each(users, function (index, user) {
+            console.log(user);
+            var counter = (pageNumber - 1) * 10 + index + 1;
+            var row =
+              '<tr>' +
+              '<td>' +
+              counter +
+              '</td>' +
+              '<td>' +
+              user.id +
+              '</td>' +
+              '<td>' +
+              user.name +
+              '</td>' +
+              '<td>' +
+              user.address +
+              '</td>' +
+              '<td>' +
+              user.phone +
+              '</td>' +
+              '</tr>';
+            tableBody.append(row);
+          });
+
+          pageNumber++;
+        }
+
+        isLoading = false;
+      });
+  }
+});
+
+    </script>
+}
