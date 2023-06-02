@@ -24,7 +24,6 @@ namespace YourAppName.Controllers
 
         public IActionResult GenerateData(double errorCount, int seed, int count, string region = "en")
         {   
-            System.Console.WriteLine(count);
             var users = _generator.GetData(seed, region, count);
             var errorsLogic = new ErrorService(seed);
             for (int i = 0; i < users.Length; i++)

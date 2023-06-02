@@ -115,34 +115,7 @@
                   </thead>
                   <tbody id="tableBody">
                   
-                  @foreach (var item in Model)
-                  {
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <p class="text-xs text-secondary mb-0">@counter</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">@item.Id</p>
-                      </td>
-                      <td>
-                       <div class="d-flex flex-column justify-content-center">
-                         <p class="text-xs font-weight-bold mb-0">@item.Name</p>
-                       </div>
-                      </td>
-                      <td class="align-middle">
-                            <p class="text-xs font-weight-bold mb-0">@item.Address</p>
-                      </td>
-                      <td class="align-middle">
-                        <p class="text-xs font-weight-bold mb-0">@item.Phone</p>
-                        
-                      </td>
-                    </tr>
-                    counter++;
-                    }
+                  
              
                   </tbody>
                 </table>

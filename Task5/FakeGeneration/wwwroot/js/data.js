@@ -7,7 +7,8 @@ $(document).ready(function () {
     var textInput = document.getElementById('textInput');
     var region = $('#region').val();
     var currentData = [];
-    console.log(region);
+    var lastIndex = 0;
+    loadTable(20);
 
     rangeInput.addEventListener('input', function() {
       textInput.value = rangeInput.value;
@@ -38,6 +39,7 @@ $(document).ready(function () {
     function resetTable() {
       tableBody.empty();
       pageNumber = 0;
+      lastIndex = 0;
       
     }
   
@@ -49,7 +51,6 @@ $(document).ready(function () {
       isLoading = true;
       seed = parseInt($('#seed').val());
       var region = $('#region').val();
-      console.log(region);
       var errorCount = $('#textInput').val();
       axios
         .get('/FakeData/GenerateData', {
@@ -66,15 +67,14 @@ $(document).ready(function () {
           if (users.length > 0) {
             $.each(users, function (index, user) {
               currentData.push(user);
-              var counter = (pageNumber) * 20 + index + 21;
-              if (usersCount = 20)
-                counter -= 20;
+              lastIndex++;
+             // var counter = (pageNumber) * currentData.length + index + 1;
               var row =
                 '<tr>' +
                 '<td>' +
                 '<div class="d-flex px-2 py-1">' +
                 '<div>' +
-                '<p class="text-xs text-secondary mb-0">' + counter + '</p>' +
+                '<p class="text-xs text-secondary mb-0">' + lastIndex + '</p>' +
                 '</div>' +
                 '</div>' +
                 '</td>' +
@@ -97,9 +97,11 @@ $(document).ready(function () {
             });
   
             pageNumber++;
+            
           }
   
           isLoading = false;
+          
         });
     }
     function createCsv(){
