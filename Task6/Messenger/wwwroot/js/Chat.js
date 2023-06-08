@@ -51,3 +51,47 @@ function updateConnectionId(){
     console.error(error);
   });
 };
+function sendReply(){
+  var sender = document.getElementById("userName").innerText;
+  var receiver = document.getElementById('messageSender').innerText;
+  console.log('receiver: ' + receiver);
+  var message = document.getElementById("validationTextarea").value;
+  console.log('sender: ' + sender + ', receiver: ' + receiver + ', message: ' + message);
+  if(connection.state != 'Connected'){
+    connection.start().then( function (){
+      connection.invoke("SendPersonal", sender, receiver, message)
+      .catch(function (err) {
+        return console.error(err.toString());
+      })});
+  }
+  else
+
+  connection.invoke("SendPersonal", sender, receiver, message)
+  .catch(function (err) {
+      return console.error(err.toString());
+  }
+  );
+
+};
+function sendMessage()
+{
+    var sender = document.getElementById('userName').innerText;
+    var receiver = document.getElementById('receiver').value;
+    var message = document.getElementById("TextArea").value;
+    console.log('sender: ' + sender + ', receiver: ' + receiver + ', message: ' + message);
+    if(connection.state != 'Connected'){
+      connection.start().then( function (){
+      connection.invoke("SendPersonal", sender, receiver, message)
+      .catch(function (err) {
+          return console.error(err.toString());
+      })}
+    );
+}
+else
+{
+  connection.invoke("SendPersonal", sender, receiver, message)
+      .catch(function (err) {
+          return console.error(err.toString());
+      });
+}
+}

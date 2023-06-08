@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.1.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
-    <script src="~/lib/signalr/jquery.signalR.js"></script>
+  <script src="~/lib/signalr/jquery.signalR.js"></script>
     <script src="~/js/chat.js"></script>
   <title>
     Messenger App
@@ -196,20 +196,7 @@
     // Находим раскрывающееся окно ответа
     var replyWindow = dialogItem.querySelector('.reply');
     }
-    function sendReply(){
-    var sender = document.getElementById("userName").innerText;
-    var receiver = document.getElementById('messageSender').innerText;
-    console.log('receiver: ' + receiver);
-    var message = document.getElementById("validationTextarea").value;
-    console.log('sender: ' + sender + ', receiver: ' + receiver + ', message: ' + message);
-    connection.invoke("SendPersonal", sender, receiver, message)
-    .catch(function (err) {
-        return console.error(err.toString());
-    }
-    );
-
-};
-
+    
   </script>
 </body>
 

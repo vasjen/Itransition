@@ -159,22 +159,7 @@
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
-  <script>
-    function sendMessage()
-{
-    var sender = document.getElementById('userName').innerText;
-    var receiver = document.getElementById('receiver').value;
-    var message = document.getElementById("TextArea").value;
-    console.log('sender: ' + sender + ', receiver: ' + receiver + ', message: ' + message);
-    connection.invoke("SendPersonal", sender, receiver, message)
-    .catch(function (err) {
-        return console.error(err.toString());
-    }
-    );
-};
-
-    
-  </script>
+  
 </body>
 <script>
 const receiverInput = document.getElementById('receiver');
