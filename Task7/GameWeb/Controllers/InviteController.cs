@@ -1,19 +1,25 @@
 
+using GameWeb.Data;
+using GameWeb.Models;
+using GameWeb.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 namespace GameWeb.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[SwaggerTag("Controller which responsive for inviting mechanism for selected game - creating,sending, accepting or declining")]
 public class InviteController : ControllerBase
-{   
-    
-    private readonly GameDbConnection _context;
+{
+    private readonly AppDbContext _context;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly ITokenCreationService _jwtService;
     private readonly IPlayRoomHub _hubContext;
     private readonly PlayRoomRegistry _registry;
 
-    public InviteController(GameDbConnection context, UserManager<IdentityUser> userManager, ITokenCreationService jwtService, IPlayRoomHub hubContext, PlayRoomRegistry registry)
+    public InviteController(AppDbContext context, UserManager<IdentityUser> userManager, ITokenCreationService jwtService, IPlayRoomHub hubContext, PlayRoomRegistry registry)
     {
 
         _context = context;
@@ -25,11 +31,7 @@ public class InviteController : ControllerBase
 
     [Authorize]
     [HttpPost("Create")]
-    [SwaggerOperation(
-    Summary = "Create invite",
-    Description = "This endpoint will return a new invite for the selected game",
-    OperationId = "Post")]
-    [SwaggerResponse(200,"Invite is created", typeof(Invite))]
+    
     public async Task<ActionResult<Invite>> CreateInviteAsync(int id)
     {
        if (!ModelState.IsValid)
@@ -58,11 +60,6 @@ public class InviteController : ControllerBase
     }
     [Authorize]
     [HttpPut("{id}/Send")]
-    [SwaggerOperation(
-    Summary = "Send invite",
-    Description = "This endpoint will send a selected invite to user",
-    OperationId = "Put")]
-    [SwaggerResponse(200)]
     public async Task<IActionResult> SendInviteAsync(int id, string userName)
     {   
         if (!ModelState.IsValid)
@@ -96,11 +93,6 @@ public class InviteController : ControllerBase
     }
     [Authorize]
     [HttpPut("{id}/Accept")]
-    [SwaggerOperation(
-    Summary = "Accept income inviting",
-    Description = "This endpoint will return received invite and start the game",
-    OperationId = "Put")]
-    [SwaggerResponse(200,"Invite accepted, the game is started", type: typeof(Invite))]
     public async Task<IActionResult> AcceptInviteAsync(int id)
     {
       if (!ModelState.IsValid)
@@ -137,11 +129,6 @@ public class InviteController : ControllerBase
     }
     [Authorize]
     [HttpDelete("{id}/Decline")]
-    [SwaggerOperation(
-    Summary = "Reject invite",
-    Description = "This endpoint will decline a received invite and delete him",
-    OperationId = "Delete")]
-    [SwaggerResponse(200,"Invite #{id} was declined and removed from database")]
     public async Task<IActionResult> DeclineInviteAsync(int id)
     {
         if (!ModelState.IsValid)

@@ -1,16 +1,21 @@
+using GameWeb.Data;
+using GameWeb.Models;
+using GameWeb.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 namespace GameWeb.Controllers;
 
 [ApiController]
-[SwaggerTag("Controller which responsive for game process - get,create,move")]
 [Route("[controller]")]
 public class GameController : ControllerBase
 {
-   
-    private readonly GameDbConnection _context;
+    private readonly AppDbContext _context;
     private readonly IGameService _gameMaster;
     private readonly ITokenCreationService _jwtService;
 
-    public GameController(GameDbConnection context, IGameService gameMaster, ITokenCreationService jwtService)
+    public GameController(AppDbContext context, IGameService gameMaster, ITokenCreationService jwtService)
     {
         _context = context;
         _gameMaster = gameMaster;
@@ -18,10 +23,7 @@ public class GameController : ControllerBase
     }
 
     [HttpGet("Get")]
-    [SwaggerOperation(
-    Summary = "Get five last game",
-    Description = "This endpoint will return 5 last games",
-    OperationId = "Get")]
+    
     public async Task<IEnumerable<Game?>?> GetFileLastGamesAsync()
     {
 
@@ -36,10 +38,6 @@ public class GameController : ControllerBase
     [Authorize]
     
     [HttpPost("Create")]
-    [SwaggerOperation(
-    Summary = "Create new game",
-    Description = "This endpoint will return a new game",
-    OperationId = "Post")]
     public async Task<IActionResult> CreateGameAsync()
     {
         var user = _jwtService.GetUserFromToken(Request.Headers["Authorization"]);
@@ -67,10 +65,6 @@ public class GameController : ControllerBase
         return Ok(newGame);
     }
     [HttpGet("{id}/Get")]
-    [SwaggerOperation(
-    Summary = "Get game",
-    Description = "This endpoint will return selected game",
-    OperationId = "Get")]
     public async Task<Game?> GetAsync(int id)
     {
 
@@ -83,10 +77,6 @@ public class GameController : ControllerBase
     }
     [Authorize]
     [HttpPut("{id}/Move")]
-    [SwaggerOperation(
-    Summary = "Get move in selected game",
-    Description = "This endpoint will return game after make move",
-    OperationId = "Put")]
     
     public async Task<IActionResult?> MoveAsync(int id, int xPos, int yPos)
     {

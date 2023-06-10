@@ -1,11 +1,13 @@
 
 
 using GameWeb.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameWeb.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityUserContext<IdentityUser>
     {
         private readonly IConfiguration _config;
 
@@ -24,6 +26,12 @@ namespace GameWeb.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Game>()
+                        .Property(p=>p.Status)
+                        .HasConversion<string>();
+               
                 
         }
     }
