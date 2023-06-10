@@ -48,11 +48,12 @@ namespace Messenger.Controller
         public async Task<IActionResult> FindReceiversAsync()
         {
             string term = HttpContext.Request.Query["search"].ToString();
-            var users = _context.Users
+            var users = await _context.Users
                         .Where(p => p.Name.Contains(term.ToLower()))
                         .Select(p => p.Name)
                         .ToListAsync();
-            return Ok(await users);
+
+            return Ok(users);
         }
     }
     public class UserDto

@@ -8,8 +8,7 @@ var connectionId = "";
 connection.on("ReceiveMessage", function (user, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     var li = document.createElement("li");
-    console.log(msg);
-    console.log(user);
+   
     
         var row = ' <div class="avatar me-3"> '
         + ' <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow"> '
@@ -39,7 +38,6 @@ connection.start().then(function () {
 
 function updateConnectionId(){
     var user = document.getElementById("userName").innerText;
-    console.log('user: ' + user + ' connectionId: ' + connectionId);
   axios.post('/User/CheckAndUpdateUser' ,{
           user: user,
           connectionId: connectionId
@@ -54,9 +52,7 @@ function updateConnectionId(){
 function sendReply(){
   var sender = document.getElementById("userName").innerText;
   var receiver = document.getElementById('messageSender').innerText;
-  console.log('receiver: ' + receiver);
-  var message = document.getElementById("validationTextarea").value;
-  console.log('sender: ' + sender + ', receiver: ' + receiver + ', message: ' + message);
+ var message = document.getElementById("validationTextarea").value;
   if(connection.state != 'Connected'){
     connection.start().then( function (){
       connection.invoke("SendPersonal", sender, receiver, message)
@@ -78,7 +74,6 @@ function sendMessage()
     var sender = document.getElementById('userName').innerText;
     var receiver = document.getElementById('receiver').value;
     var message = document.getElementById("TextArea").value;
-    console.log('sender: ' + sender + ', receiver: ' + receiver + ', message: ' + message);
     if(connection.state != 'Connected'){
       connection.start().then( function (){
       connection.invoke("SendPersonal", sender, receiver, message)

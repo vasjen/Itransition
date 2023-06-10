@@ -18,32 +18,15 @@
   <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.1.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
     <script src="~/lib/signalr/jquery.signalR.js"></script>
-    
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/searching.js"></script>
     <script src="~/js/chat.js"></script>
-    <style>
-        .suggestions-container {
-  position: relative;
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-}
+     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-.suggestion-item {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.suggestion-item:hover {
-  background-color: #f5f5f5;
-}
-
-.suggestion-item.highlight {
-  background-color: #e0e0e0;
-}
-
-    </style>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
   <title>
     Messenger App
   </title>
@@ -161,100 +144,6 @@
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
   
 </body>
-<script>
-const receiverInput = document.getElementById('receiver');
-const receiverSuggestionsContainer = document.getElementById('receiver-suggestions');
 
-receiverInput.addEventListener('input', function() {
-  const searchText = receiverInput.value;
-
-  receiverSuggestionsContainer.innerHTML = '';
-
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', '/User/FindReceivers?search=' + searchText, true);
-
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        const suggestions = response;
-
-        suggestions.forEach(function(suggestion) {
-          const suggestionElement = document.createElement('div');
-          suggestionElement.textContent = suggestion;
-          suggestionElement.classList.add('suggestion-item');
-
-          suggestionElement.addEventListener('click', function() {
-            receiverInput.value = suggestion;
-            receiverSuggestionsContainer.innerHTML = '';
-          });
-
-          receiverSuggestionsContainer.appendChild(suggestionElement);
-        });
-
-        if (suggestions.length === 0) {
-          const noResultsElement = document.createElement('div');
-          noResultsElement.classList.add('suggestion-item', 'disabled');
-          receiverSuggestionsContainer.appendChild(noResultsElement);
-        }
-      } else {
-      
-      }
-    }
-  };
-
-  xhr.send();
-});
-
-receiverInput.addEventListener('keydown', function(event) {
-  const suggestionItems = receiverSuggestionsContainer.querySelectorAll('.suggestion-item');
-  let highlightedItemIndex = -1;
-
-  suggestionItems.forEach(function(item, index) {
-    if (item.classList.contains('highlight')) {
-      highlightedItemIndex = index;
-    }
-  });
-
-  if (event.key === 'ArrowDown') {
-    event.preventDefault();
-
-    if (highlightedItemIndex === suggestionItems.length - 1) {
-      highlightedItemIndex = -1;
-    }
-
-    suggestionItems.forEach(function(item) {
-      item.classList.remove('highlight');
-    });
-
-    suggestionItems[highlightedItemIndex + 1].classList.add('highlight');
-  } else if (event.key === 'ArrowUp') {
-    event.preventDefault();
-
-    if (highlightedItemIndex === -1 || highlightedItemIndex === 0) {
-      highlightedItemIndex = suggestionItems.length;
-    }
-
-    suggestionItems.forEach(function(item) {
-      item.classList.remove('highlight');
-    });
-
-    suggestionItems[highlightedItemIndex - 1].classList.add('highlight');
-  } else if (event.key === 'Enter') {
-    event.preventDefault();
-
-    if (highlightedItemIndex !== -1) {
-      receiverInput.value = suggestionItems[highlightedItemIndex].textContent;
-      receiverSuggestionsContainer.innerHTML = '';
-    }
-  }
-});
-
-receiverInput.addEventListener('blur', function() {
-  receiverSuggestions
-
-});
-
-</script>
 </html>
     
