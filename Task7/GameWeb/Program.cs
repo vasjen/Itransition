@@ -17,7 +17,7 @@ builder.Services.AddIdentityCore<IdentityUser>(options => {
         options.SignIn.RequireConfirmedAccount = false;
         options.User.RequireUniqueEmail = true;
         options.Password.RequireDigit = false;
-        options.Password.RequiredLength = 6;
+        options.Password.RequiredLength = 2;
         options.Password.RequireNonAlphanumeric = false;
         options.Password.RequireUppercase = false;
         options.Password.RequireLowercase = false;
@@ -46,6 +46,7 @@ builder.Services
     });
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddRouting(op => op.LowercaseUrls = true);
 builder.Services.AddSignalR();
 builder.Services.AddControllers();
 builder.Services.AddSingleton<PlayRoomRegistry>();
@@ -74,8 +75,7 @@ app.MapRazorPages();
 app.MapControllers();
 app.UseEndpoints(endpoints =>
             {   
-                endpoints.MapHub<PlayRoomHub>("/gameHub");
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapHub<PlayRoomHub>("/playroom");
             });
 using (var scope = app.Services.CreateScope())
 {

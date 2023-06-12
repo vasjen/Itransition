@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace GameWeb.Pages;
 
-public class PrivacyModel : PageModel
+public class CreateModel : PageModel
 {
-    private readonly ILogger<PrivacyModel> _logger;
+    private readonly ILogger<CreateModel> _logger;
 
-    public PrivacyModel(ILogger<PrivacyModel> logger)
+    public CreateModel(ILogger<CreateModel> logger)
     {
         _logger = logger;
     }

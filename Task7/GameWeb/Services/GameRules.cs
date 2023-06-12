@@ -12,6 +12,7 @@ namespace GameWeb.Services{
             _context = context;
         }
         public async Task Move (Game game, int xPos, int yPos){
+            System.Console.WriteLine("Ive got xPos: {0}, yPos: {1}",xPos,yPos);
 
 
         int index = 3 * (yPos - 1) + xPos;
@@ -60,18 +61,17 @@ namespace GameWeb.Services{
             win = IsWinningLine(_board[0, 2], _board[1, 1], _board[2, 0]);
         }
            
-        
+        System.Console.WriteLine("Total moves: {0}. Win some one? {1}",game.Moves, win);
         var draw = false;
         if (game.Moves is 9)
         {
-            draw = true;  // we could try to look for stalemate earlier, if we wanted 
+            draw = true; 
+            
         }
 
-        // handle end of game
-      //  Dictionary<int,int> afterBoard = new Dictionary<int, int>();
         if (win || draw)
         {
-            // game over
+           
             game.Status = GameStatus.Finished;
             if (win)
             {
@@ -85,18 +85,12 @@ namespace GameWeb.Services{
                 }
                 
             }
-            
-
+        
+        System.Console.WriteLine("GameStatus: {0}",game.Status);
 
         }
-         //   for (int i = 0; i< 3; i++){
-         //       for (int j = 0; j < 3; j++){
-         //           afterBoard.Add((i) * 3 + j + 1, _board[i,j]);
-         //       }
-         //   }
             game.Queue=!game.Queue;
             await _context.SaveChangesAsync();
-           // return afterBoard;
         }
         private static bool IsWinningLine(int i, int j, int k) => (i, j, k) switch
         {

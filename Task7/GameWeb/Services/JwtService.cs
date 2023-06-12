@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace GameWeb.Services{
 
     public class JwtService : ITokenCreationService{
-         private const int EXPIRATION_MINUTES = 20;
+         private const int EXPIRATION_MINUTES = 500;
 
         private readonly IConfiguration _configuration;
 

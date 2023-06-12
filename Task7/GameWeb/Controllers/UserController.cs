@@ -4,6 +4,7 @@ using GameWeb.Models.Authentication;
 using GameWeb.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameWeb.Controllers;
 
@@ -35,8 +36,20 @@ public class UserController : ControllerBase
         }
         return new User {UserName = user.UserName, Email = user.Email};
     }
+        [HttpGet("Find")]
+        public async Task<IActionResult> FindReceiversAsync()
+        {
+            string term = HttpContext.Request.Query["search"].ToString();
+            var users = await _context.Users
+                        .Where(p => p.UserName.Contains(term.ToLower()))
+                        .Select(p => p.UserName)
+                        .ToListAsync();
+
+            return Ok(users);
+        }
+
     [HttpPost("Create")]
-    public async Task<ActionResult> CreateAsync(User user)
+    public async Task<ActionResult> CreateAsync([FromForm] User user)
     {
         if (!ModelState.IsValid)
         {
@@ -58,8 +71,9 @@ public class UserController : ControllerBase
         return CreatedAtAction("GetUser", new { username = user.UserName }, user);
     }
     [HttpPost("BearerToken")]
-    public async Task<ActionResult<AuthenticationResponse>> CreateBearerToken(AuthenticationRequest request)
+    public async Task<ActionResult<AuthenticationResponse>> CreateBearerToken([FromForm] AuthenticationRequest request)
     {
+       
         if (!ModelState.IsValid)
         {
             return BadRequest("Bad credentials");
@@ -78,9 +92,8 @@ public class UserController : ControllerBase
         {
             return BadRequest("Bad credentials");
         }
-    
         var token = _jwtService.CreateToken(user);
-    
+        //Response.Cookies.Append("")
         return Ok(token);
 }   
     

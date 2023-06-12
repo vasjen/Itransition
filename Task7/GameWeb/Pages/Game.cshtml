@@ -1,0 +1,245 @@
+﻿@page "{id}"
+@model GameModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+    Layout="_MenuLayout";
+    int gameId = int.Parse(RouteData.Values["id"].ToString());
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.11.2/qs.min.js" integrity="sha512-vCegEXqPUYpZsTGz2lk0jaQ1psxtFeniVJACAXhMVxuoYa/N4nZkjoVFOxLwP7uGeQOoemiz7DQrIpRTj4IBPw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.11.2/qs.js" integrity="sha512-xjPY2pO1GsrSGApvDELRMdGhJt/kTYnBbfR7VPLh/xgyJdN1gCZkz8Ru93f/rFN6Es48vhLU2RiZPylvRrieXg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    .board {
+      display: flex;
+      flex-wrap: wrap;
+      width: 300px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      cursor: pointer;
+    }
+
+    .info {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+  <div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-sm-8 mt-4">
+          <div class="card">
+            <div class="card-header pb-0 px-3">
+              <h6 class="mb-0">Current game</h6>
+            </div>
+            <div class="card-body  mx-4">
+                <div class="row">
+                 <div id ="field-1" class="col border border-3 p-5" >-</div>
+                  <div id ="field-2" class="col border border-3 p-5" >-</div>
+                  <div id ="field-3" class="col border border-3 p-5" >-</div>
+                </div>
+                <div class="row">
+                  <div id ="field-4" class="col border border-3 p-5" >-</div>
+                  <div id ="field-5" class="col border border-3 p-5" >-</div>
+                  <div id ="field-6" class="col border border-3 p-5" >-</div>
+                </div>
+                <div class="row">
+                 <div id ="field-7" class="col border border-3 p-5" >-</div>
+                  <div id ="field-8" class="col border border-3 p-5" >-</div>
+                  <div id ="field-9" class="col border border-3 p-5" >-</div>
+                </div>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4 mt-4">
+          <div class="card h-100 mb-4">
+            <div class="card-header pb-0 px-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <h6 class="mb-0">Game information</h6>
+                </div>
+                <div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
+                  <i class="material-icons me-2 text-lg">done_outline</i>
+                    <span>ID:</span>
+                  <small id="gameId">@gameId</small>
+                </div>
+              </div>
+            </div>
+            <div class="card-body pt-4 p-3">
+              <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Players</h6>
+              <ul class="list-group">
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center" id="invite"><i class="material-icons text-lg">person</i></button>
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-1 text-dark text-sm" id="FirstPlayerName">@Model.Game.FirstPlayerName</h6>
+                      <span class="text-xs" id="FirstPlayerId">@Model.Game.FirstPlayerId</span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                <div class="d-flex align-items-center">
+                @if (Model.Game.SecondPlayerId == null)
+                {   
+
+                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#inviteModal"><i class="material-icons text-lg">person_add</i></button>
+                    <div class="d-flex flex-column">
+                        <a href="/Home">
+
+                      <h6 class="mb-1 text-dark text-sm">Add to a game</h6>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">person</i></button>
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-1 text-dark text-sm">@Model.Game.SecondPlayerName</h6>
+                      <span class="text-xs">@Model.Game.SecondPlayerId</span>
+                    </div>
+                }
+                  </div>
+                </li>
+              </ul>
+              <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Status</h6>
+              <ul class="list-group">
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">expand_less</i></button>
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-1 text-dark text-sm">@Model.Game.Status</h6>
+                      <span class="text-xs">@Model.Game.CreateTime</span>
+                    </div>
+                  </div>
+                </li>
+                @if (Model.Game.Status.ToString() == "Active")
+                {
+                   <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Next move is</h6>
+                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                      <div class="d-flex align-items-center">
+                        <button class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">priority_high</i></button>
+                        <div class="d-flex flex-column">
+                          <h6 class="mb-1 text-dark text-sm"> @if (Model.Game.Queue == false) @Model.Game.FirstPlayerName else @Model.Game.SecondPlayerName</h6>
+
+                        </div>
+                      </div>
+                    </li>
+                }
+                @if (Model.Game.Status.ToString() == "Finished" ){
+                  <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Winner:</h6>
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-lg">emoji_events</i></button>
+                    <div class="d-flex flex-column">
+                      @if (Model.Game.Winner != null)
+                      {
+                         <h6 class="mb-1 text-dark text-sm"> @Model.Game.Winner  </h6>
+                      }
+                      else{
+
+                      <h6 class="mb-1 text-dark text-sm">DRAW!</h6>
+                      }
+                    
+                    </div>
+                  </div>
+                </li>
+                }
+                 
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <!-- Modal -->
+<div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="inviteModalLabel">Invite player</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="InvitinUser">
+         <div class="mb-3">
+            <label for="userName" class="col-form-label">User:</label>
+            <input type="text" class="form-control border" id="userName">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" onclick="sendInvite()">send</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <script>
+        const cells = document.querySelectorAll('.card-body .row .col');
+
+// Добавление обработчика событий клика на каждую клетку
+cells.forEach((cell, index) => {
+  cell.addEventListener('click', () => {
+    const yPos = Math.floor(index / 3) +1;  // Вычисление значения xPos (горизонтальная координата)
+    const xPos = index % 3 +1;              // Вычисление значения yPos (вертикальная координата)
+    sendMove(xPos, yPos);               // Вызов функции sendMove с передачей координат
+  });
+});
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1QgZm9yIFRpY1Rha1RvZSIsImp0aSI6IjhhZWZkNDI4LTkyYTctNDZmNi1hMjM3LWE1ZjgxMGJiMDEwYiIsImlhdCI6IjYvMTIvMjAyMyAxOjI0OjEzIEFNIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI5ZmExZDUwYS1mOTM5LTRjY2UtYmIwOS1lYThjNTA4Njc5MWYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidmFzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3RtYWlsQGdtYWlsLmNvbSIsImV4cCI6MTY4NjUzNDI1MywiaXNzIjoiVGljVGFrVG9lIiwiYXVkIjoiVGljVGFrVG9lIn0.Flqqtvhlf_Rj2kGLbewkzlLXe961mYDjtiJN08WjkaM';
+    const config = {
+    headers: { 
+        Authorization: `Bearer ${token}`}
+    };
+   
+    function sendMove(x,y){
+        let bodyParameters = {
+        gameId: @gameId,
+        xPos: x,
+        yPos: y
+    };
+        axios.put('/Game/Move',
+        Qs.stringify(bodyParameters),
+        config)
+    .then(
+        function (response){
+            console.log(response.data);
+            sendMoveToHub(bodyParameters);
+        }
+    )
+    };
+    function sendInvite(user){
+        let bodyParameters = {
+        id: @gameId,
+    };
+    axios.post('/Invite/Create',
+    Qs.stringify(bodyParameters),
+    config)
+.then(
+    function (response){
+          let bodyParameters = {
+            id: response.data,
+            userName: document.getElementById('userName').value
+        };
+        
+        axios.put('/Invite/Send', Qs.stringify(bodyParameters), config)
+            .then(function (response) {
+                console.log(response.data);
+            });
+
+    }
+)
+}
+  </script>

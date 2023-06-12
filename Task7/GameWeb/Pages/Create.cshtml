@@ -1,0 +1,33 @@
+﻿@page
+@model CreateModel
+@{
+    ViewData["Title"] = "Create new game";
+    Layout="_MenuLayout";
+}
+
+
+<div class="container-fluid">
+  <div class="card w-75">
+  <div class="card-body">
+    <h5 class="card-title">Creation new game</h5>
+    <p class="card-text">Do you want to create a new game?</p>
+    <a href="#" class="btn btn-success" type="submit" onclick="createGame()">Yes</a>
+    <a class="btn btn-danger" type="cancel" href='javascript:history.go(-1)'>Now</a>
+  </div>
+</div>
+</div>
+<script>
+   
+  function createGame(){
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1QgZm9yIFRpY1Rha1RvZSIsImp0aSI6IjhhZWZkNDI4LTkyYTctNDZmNi1hMjM3LWE1ZjgxMGJiMDEwYiIsImlhdCI6IjYvMTIvMjAyMyAxOjI0OjEzIEFNIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI5ZmExZDUwYS1mOTM5LTRjY2UtYmIwOS1lYThjNTA4Njc5MWYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidmFzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3RtYWlsQGdtYWlsLmNvbSIsImV4cCI6MTY4NjUzNDI1MywiaXNzIjoiVGljVGFrVG9lIiwiYXVkIjoiVGljVGFrVG9lIn0.Flqqtvhlf_Rj2kGLbewkzlLXe961mYDjtiJN08WjkaM';
+    const config = {
+    headers: { Authorization: `Bearer ${token}` }
+    };
+    axios.post('/Game/Create', {},config)
+    .then( function(response) {
+      console.log(response);
+    })
+  
+    }
+  
+</script>

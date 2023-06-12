@@ -12,17 +12,12 @@ namespace GameWeb.Models{
         public string? SecondPlayerName {get; set;}
         public string? SecondPlayerId {get; set;}
         public int Moves {get;set;}
+        public string? RoomId {get;set;}
        
         public int BoardId {get;init;}
         public Board Board {get;set;}
         
         public DateTime CreateTime {get;init;} = DateTime.Now;
-        
-        
-
-
-        
-
-
     }
+    public record GameMoveDto(int gameId, int xPos, int yPos);
 }

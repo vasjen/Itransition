@@ -32,7 +32,7 @@ public class InviteController : ControllerBase
     [Authorize]
     [HttpPost("Create")]
     
-    public async Task<ActionResult<Invite>> CreateInviteAsync(int id)
+    public async Task<ActionResult<Invite>> CreateInviteAsync([FromForm]int id)
     {
        if (!ModelState.IsValid)
         {
@@ -52,16 +52,16 @@ public class InviteController : ControllerBase
         Invite newInvite = new Invite() {GameId = game.GameId, FirstPlayer = userName};
         await _context.AddAsync(newInvite);
         await _context.SaveChangesAsync();
-        RoomRequest room = new(userName+"_room"+game.GameId);
-         _registry.CreateRoom(room.Room);
+        
 
 
-        return Ok(newInvite);
+        return Ok(newInvite.InviteId);
     }
     [Authorize]
-    [HttpPut("{id}/Send")]
-    public async Task<IActionResult> SendInviteAsync(int id, string userName)
+    [HttpPut("Send")]
+    public async Task<IActionResult> SendInviteAsync([FromForm] int id, [FromForm] string userName)
     {   
+        System.Console.WriteLine("Get request! id: {0}, username: {1}",id,userName);
         if (!ModelState.IsValid)
         {
             return BadRequest("Invalid data");
@@ -89,7 +89,7 @@ public class InviteController : ControllerBase
         
 
 
-        return Ok();
+        return Ok($"send to {user.UserName}");
     }
     [Authorize]
     [HttpPut("{id}/Accept")]
@@ -125,7 +125,7 @@ public class InviteController : ControllerBase
 
 
 
-        return Ok(invite);
+        return Ok(invite.GameId);
     }
     [Authorize]
     [HttpDelete("{id}/Decline")]
@@ -135,8 +135,9 @@ public class InviteController : ControllerBase
         {
             return BadRequest("Invalid data");
         }
-        var invite = await _context.Invites
+        var invite = await _context.Invites 
                             .Where(p => p.InviteId == id)
+                            .Include(p => p.Game)
                             .FirstOrDefaultAsync();
 
         if (invite == null || invite.Game.Status is not GameStatus.Waiting)
