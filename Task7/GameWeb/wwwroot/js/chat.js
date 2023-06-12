@@ -4,12 +4,9 @@ let connection = new signalR.HubConnectionBuilder()
 .build();
 var currentRoom = '';
 connection.on("UpdateGameState", function (game) {
-  // Обновление игрового поля в браузере с использованием полученного объекта game
-  // Например, обновление DOM-элементов или отрисовка нового состояния игры
   updateGameField(game);
 });
 function updateGameField(game) {
-  // Обновление игрового поля в браузере с использованием полученного объекта game
   for (var i = 0; i < game.board.fields.length; i++) {
     var fieldIndex = i + 1;
     var field = document.getElementById('field-' + fieldIndex);
@@ -27,7 +24,6 @@ connection.start().then(function () {
           console.log("Соединение установлено.");
           getRooms();
       
-          // Подключение к комнате
           connection.invoke("JoinRoom", currentRoom)
           .then( function (resposne){
             console.log("Success! => Joint to: " + currentRoom);
@@ -48,8 +44,6 @@ connection.start().then(function () {
             return console.error(err.toString());
         });
       }
-      
-      // Отправка сообщения на сервер
       function getRooms() {
         connection.invoke("GetRooms").then(function (rooms) {
             console.log("Список комнат: " + rooms.join(", "));

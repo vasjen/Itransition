@@ -34,7 +34,7 @@
    
 });
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1QgZm9yIFRpY1Rha1RvZSIsImp0aSI6IjA5NTg5OTYyLTg2MDAtNDExNi05M2ZjLWNlNjVmOGI1OGU5OCIsImlhdCI6IjYvMTIvMjAyMyA5OjQ5OjUzIEFNIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI5ZmExZDUwYS1mOTM5LTRjY2UtYmIwOS1lYThjNTA4Njc5MWYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidmFzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3RtYWlsQGdtYWlsLmNvbSIsImV4cCI6MTY4NjU5MzM5MywiaXNzIjoiVGljVGFrVG9lIiwiYXVkIjoiVGljVGFrVG9lIn0.0wy-g6hDx5my_wZbIsAHwj3bHDQBTJwHbAD5Jwvr3M0 ';
+const token = 'jwtToken';
     const config = {
     headers: { 
         Authorization: `Bearer ${token}`}
